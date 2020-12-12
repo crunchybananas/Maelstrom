@@ -2,6 +2,7 @@
 /* Here we go... */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
@@ -11,6 +12,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
 /* We wait in a loop for players to connect and tell us how many people
    are playing.  Then, once all players have connected, then we broadcast
@@ -218,7 +220,7 @@ main(int argc, char *argv[])
 	signal(SIGINT, I_Crashed);
 	signal(SIGSEGV, I_Crashed);
 
-	
+
 	/******************************************************
 	 *
 	 * Phase 2: Wait for all players
@@ -309,7 +311,7 @@ printf("Connection received on port %d\n", i);
 
 			if ( data[0] != NEW_GAME ) {
 				fprintf(stderr,
-					"Unknown client packet: 0x%.2x\n", 
+					"Unknown client packet: 0x%.2x\n",
 								data[0]);
 				DisconnectPlayer(slot);
 				continue;
@@ -317,12 +319,12 @@ printf("Connection received on port %d\n", i);
 
 			if ( len != NEW_PACKETLEN+4+1 ) {
 				fprintf(stderr,
-			"Short client packet! (len was %d, expected %d)\n", 
+			"Short client packet! (len was %d, expected %d)\n",
 						len, NEW_PACKETLEN+4+1);
 				SendError(slot, "Server received short packet");
 				continue;
 			}
-				
+
 
 			/* Yay!  Active connection! */
 			player = data[1];
@@ -361,7 +363,7 @@ printf("Connection received on port %d\n", i);
 			memcpy(players[slot].packet, &data[2],
 						players[slot].packetlen);
 			/* This is important! */
-			players[slot].raddr.sin_port = 
+			players[slot].raddr.sin_port =
 						htons((short)ntohl(cliport));
 printf("Player %d arrived on port %d\n", player+1, slot);
 printf("  the remote address is %s:%lu\n",
