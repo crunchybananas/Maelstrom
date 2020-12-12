@@ -1,0 +1,17 @@
+*.o
+/PBProjects
+/.DS_Store
+/config.status
+/config.log
+/screenlib/Makefile
+/screenlib/libSDLscreen.a
+/netlogic/Makefile
+/netlogic/liblogic.a
+/Makefile
+/Maelstrom-netd
+/Maelstrom
+/maclib/snd2wav
+/maclib/playwave
+/maclib/Makefile
+/maclib/macres
+/maclib/libSDLmac.a
